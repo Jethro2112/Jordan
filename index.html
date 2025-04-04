@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Editable Page with Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 2rem;
+        }
+        .editable {
+            border: 2px dashed #ccc;
+            padding: 1rem;
+            min-height: 100px;
+            background-color: #fff;
+        }
+        #imagePreview {
+            max-width: 100%;
+            height: auto;
+            margin-top: 1rem;
+        }
+        .toolbar {
+            margin-bottom: 1rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        input[type="file"] {
+            margin-top: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Editable Page with Image Upload</h1>
+
+    <div class="toolbar">
+        <button onclick="saveEdits()">💾 Save</button>
+        <button class="reset" onclick="resetEdits()">♻️ Reset</button>
+    </div>
+
+    <input type="file" id="imageUpload" accept="image/*" onchange="previewImage(event)" />
+    <img id="imagePreview" src="" alt="Image preview will appear here" />
+
+    <div class="editable" contenteditable="true" id="editor">
+        <h2>Welcome!</h2>
+        <p>Edit this text directly. You can also upload an image above.</p>
+    </div>
+
+    <script>
+        const editor = document.getElementById('editor');
+        const saved = localStorage.getItem('pageContent');
+        
+        if (saved) {
+            editor.innerHTML = saved;
+        }
+
+        function saveEdits() {
+            localStorage.setItem('pageContent', editor.innerHTML);
+            alert('Content saved! ✅');
+        }
+
+        function resetEdits() {
+            localStorage.removeItem('pageContent');
+            location.reload();
+        }
+
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const preview = document.getElementById('imagePreview');
+                preview.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+
+</body>
+</html>
