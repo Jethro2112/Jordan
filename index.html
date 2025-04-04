@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Editable Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    .editable {
+      border: 2px dashed #ccc;
+      padding: 1rem;
+      min-height: 100px;
+      background-color: #fff;
+    }
+    .toolbar {
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      cursor: pointer;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+    button.reset {
+      background-color: #f44336;
+    }
+  </style>
+</head>
+<body>
+  <h1>Simple Editable Page</h1>
+
+  <div class="toolbar">
+    <button onclick="saveEdits()">💾 Save</button>
+    <button class="reset" onclick="resetEdits()">♻️ Reset</button>
+  </div>
+
+  <div class="editable" contenteditable="true" id="editor">
+    <h2>Welcome!</h2>
+    <p>You can edit this content directly on the page. Click and type!</p>
+    <ul>
+      <li>Edit this list</li>
+      <li>Add your own content</li>
+      <li>Then click Save to keep changes</li>
+    </ul>
+  </div>
+
+  <script>
+    const editor = document.getElementById('editor');
+    const saved = localStorage.getItem('pageContent');
+
+    if (saved) {
+      editor.innerHTML = saved;
+    }
+
+    function saveEdits() {
+      localStorage.setItem('pageContent', editor.innerHTML);
+      alert('Content saved! ✅');
+    }
+
+    function resetEdits() {
+      localStorage.removeItem('pageContent');
+      location.reload();
+    }
+  </script>
+</body>
+</html>
